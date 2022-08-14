@@ -1,5 +1,4 @@
 import tkinter as tk
-import numpy as np
 
 HEIGHT = 600
 
@@ -8,6 +7,9 @@ def interpolate(points, tension, canvas):
     c = tension
 
     for i in range(0, len(points) - 1):
+        
+        t = 0
+        
         if i == 0:
             tangentx1 = 0
             tangenty1 = 0
@@ -25,7 +27,7 @@ def interpolate(points, tension, canvas):
             tangenty2 = (points[i + 2][1] - points[i][1]) * c
 
 
-        for t in np.arange(0, 1, 0.005):
+        while t <= 1:
             tt = t ** 2
             ttt = t ** 3
             h1 = (2*(ttt)) - (3*(tt)) + 1
@@ -35,6 +37,7 @@ def interpolate(points, tension, canvas):
             x = h1 * points[i][0] + h2 * points[i + 1][0] + h3 * tangentx1 + h4 * tangentx2
             y = h1 * points[i][1] + h2 * points[i + 1][1] + h3 * tangenty1 + h4 * tangenty2
             putPixel(x, y, "#2a4978", 2, HEIGHT, canvas)
+            t += 0.005
     
     for point in points:
         canvas.create_oval(point[0] - 5, HEIGHT - point[1] - 5, point[0] + 5, HEIGHT - point[1] + 5, fill="#94b2e0", outline="")
